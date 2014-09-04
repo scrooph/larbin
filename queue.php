@@ -36,12 +36,13 @@ switch($dbengine){
 		$content =  file_get_contents($workfile);
 		//echo $content;
 		preg_match('/<title>.*<\/title>/i',$content,$title);
-		//print_r($title);
+		print_r($title);
 		$title = str_replace("<title>","",$title[0]);
 		$title = str_replace("</title>","",$title);
+		echo $title;
 		mysql_select_db($mysql_database, $conn);
 		$res = mysql_query("INSERT INTO documents (group_id, group_id2, date_added, title, content) VALUES (1, 5, NOW(), '".$title."', '".$content."')");
-		print_r($res);
+		//print_r($res);
 		mysql_close($conn);
 	break;
 	default:
