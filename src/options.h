@@ -14,8 +14,11 @@
 /////////////////////////////////////////////////////////////
 // Select the output module you want to use
 
-#define DEFAULT_OUTPUT   // do nothing...
-//#define SIMPLE_SAVE      // save in files named save/dxxxxxx/fyyyyyy
+//#define DEFAULT_OUTPUT   // do nothing...
+#define SIMPLE_SAVE      // save in files named save/dxxxxxx/fyyyyyy
+//////////////////////////////////////////////////////////
+#define PHP_CGI	"/usr/local/php/bin/php"
+#define SAVE_DB
 //#define MIRROR_SAVE      // save in files (respect sites hierarchy)
 //#define STATS_OUTPUT     // do some stats on pages
 

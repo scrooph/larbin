@@ -1,4 +1,4 @@
-MAKE=make
+MAKE=gmake
 CC=gcc
 CXX=g++
 LIBS += -pthread

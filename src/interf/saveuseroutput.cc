@@ -2,9 +2,10 @@
 // Sebastien Ailleret
 // 07-12-01 -> 07-12-01
 
-#include <iostream.h>
+#include <iostream>
 #include <string.h>
 #include <unistd.h>
+#include <stdarg.h>
 
 #include "options.h"
 
@@ -20,10 +21,12 @@ using namespace std;
 static int nbdir = -1;
 static int nbfile = filesPerDir;
 static char buf[maxUrlSize+30];
+static char urlContent[maxUrlSize+30];
 static char *fileName;
 static int indexFds = -1;
+static int Debug = 0;
 static uint endFileName;
-
+void ldprintf(char *fmt,...);
 /** A page has been loaded successfully, save it to disk
  * @param page the page that has been fetched
  */
@@ -61,20 +64,36 @@ void loaded (html *page) {
     for (uint i=endFileName; i>endFileName-5; i--) fileName[i]='0';
   }
   int fd = creat(fileName, S_IRWXU);
+  
   if (fd < 0) {
     cerr << "cannot open file " << fileName << "\n";
     exit(1);
   }
   int s=0;
+  int ur=0;
   s = sprintf(buf, "%4u ", nbfile);
 #ifdef URL_TAGS
   s += sprintf(buf+s, "(%u) ", page->getUrl()->tag);
 #endif // URL_TAGS
   s += page->getUrl()->writeUrl(buf+s);
+  ur = page->getUrl()->writeUrl(urlContent);
   buf[s++] = '\n';
   ecrireBuff(indexFds, buf, s);
   ecrireBuff(fd, page->getPage(), page->getLength());
   close(fd);
+#ifdef SAVE_DB
+	//get file
+	ldprintf("%s\n",fileName);
+	//get url
+	ldprintf("%s\n",urlContent);
+	//write the web info into mogodb
+	
+	char cmdContent[4096] = {0};
+	sprintf(cmdContent,"%s queue.php %s %s",PHP_CGI,fileName,urlContent);
+	system(cmdContent);
+	ldprintf("%s\n",cmdContent);
+#endif
+
 }
 
 /** The fetch failed
@@ -105,4 +124,19 @@ void initUserOutput () {
  */
 void outputStats(int fds) {
   ecrire(fds, "Nothing to declare");
+}
+
+void ldprintf(char *fmt,...){
+	va_list ap;
+
+	if(Debug){
+		va_start(ap, fmt);
+		vfprintf(stdout, fmt, ap);
+		va_end(ap);
+
+		fflush(stdout);
+		return;
+	}else{
+		return;
+	}
 }

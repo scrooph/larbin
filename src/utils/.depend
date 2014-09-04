@@ -1,13 +1,5 @@
 # DO NOT DELETE
 
-PersistentFifo.o: ../types.h ../global.h ../fetch/file.h ../options.h
-PersistentFifo.o: ../config.h ../utils/url.h ../utils/string.h
-PersistentFifo.o: ../utils/debug.h ../utils/Vector.h ../fetch/site.h
-PersistentFifo.o: ../utils/Fifo.h ../fetch/specbuf.h ../fetch/hashTable.h
-PersistentFifo.o: ../utils/hashDup.h ../utils/PersistentFifo.h
-PersistentFifo.o: ../utils/text.h ../utils/connexion.h ../utils/mypthread.h
-PersistentFifo.o: ../utils/ConstantSizedFifo.h ../utils/SyncFifo.h
-PersistentFifo.o: ../fetch/checker.h
 connexion.o: ../options.h ../config.h
 debug.o: ../options.h ../config.h ../types.h
 hashDup.o: ../config.h ../types.h ../utils/hashDup.h ../utils/connexion.h
@@ -19,6 +11,14 @@ histogram.o: ../utils/PersistentFifo.h ../utils/text.h ../utils/connexion.h
 histogram.o: ../utils/mypthread.h ../utils/ConstantSizedFifo.h
 histogram.o: ../utils/SyncFifo.h ../fetch/checker.h ../utils/histogram.h
 mypthread.o: ../utils/mypthread.h ../options.h ../config.h
+PersistentFifo.o: ../types.h ../global.h ../fetch/file.h ../options.h
+PersistentFifo.o: ../config.h ../utils/url.h ../utils/string.h
+PersistentFifo.o: ../utils/debug.h ../utils/Vector.h ../fetch/site.h
+PersistentFifo.o: ../utils/Fifo.h ../fetch/specbuf.h ../fetch/hashTable.h
+PersistentFifo.o: ../utils/hashDup.h ../utils/PersistentFifo.h
+PersistentFifo.o: ../utils/text.h ../utils/connexion.h ../utils/mypthread.h
+PersistentFifo.o: ../utils/ConstantSizedFifo.h ../utils/SyncFifo.h
+PersistentFifo.o: ../fetch/checker.h
 string.o: ../options.h ../config.h ../utils/text.h ../utils/string.h
 string.o: ../types.h ../utils/debug.h
 text.o: ../options.h ../config.h ../utils/text.h ../utils/string.h ../types.h
