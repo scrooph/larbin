@@ -22,13 +22,14 @@
  * @param reason reason of the fail
  */
 void fetchFail (url *u, FetchError err, bool interesting=false) {
+	UserOutput uop = UserOutput();
 #ifdef SPECIFICSEARCH
   if (interesting
       || (privilegedExts[0] != NULL && matchPrivExt(u->getFile()))) {
-    failure(u, err);
+	  uop.failure(u, err);
   }
 #else // not a SPECIFICSEARCH
-  failure(u, err);
+  uop.failure(u, err);
 #endif
 }
 
@@ -36,6 +37,7 @@ void fetchFail (url *u, FetchError err, bool interesting=false) {
  * report the situation ! (and make some stats)
  */
 void endOfLoad (html *parser, FetchError err) {
+	UserOutput uop = UserOutput();
   answers(err);
   switch (err) {
   case success:
@@ -45,7 +47,7 @@ void endOfLoad (html *parser, FetchError err) {
       loaded(parser);
     }
 #else // not a SPECIFICSEARCH
-    loaded(parser);
+    uop.loaded(parser);
 #endif // SPECIFICSEARCH
     break;
   default:
@@ -75,7 +77,8 @@ void initOutput () {
 #else // THREAD_OUTPUT not defined
 
 void initOutput () {
-  initUserOutput();
+	UserOutput uop = UserOutput();
+	uop.initUserOutput();
 }
 
 #endif // THREAD_OUTPUT

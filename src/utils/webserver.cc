@@ -376,7 +376,7 @@ static void manageAns (int fds, char *req) {
   if (req != NULL) {
     writeHeader(fds);
     if (!strncmp(req, "/output.html", 12)) {
-      outputStats(fds);
+    	UserOutput::outputStats(fds);
     } else if (!strcmp(req, "/dns.html")) {
       writeUrls(fds);
     } else if (!strcmp(req, "/ip.html")) {

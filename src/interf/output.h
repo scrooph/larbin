@@ -6,6 +6,7 @@
 #define OUTPUT_H
 
 #include "global.h"
+#include "interf/useroutput.h"
 
 /** The fetch failed
  * @param u the URL of the doc

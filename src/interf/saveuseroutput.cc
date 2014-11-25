@@ -24,13 +24,11 @@ static char buf[maxUrlSize+30];
 static char urlContent[maxUrlSize+30];
 static char *fileName;
 static int indexFds = -1;
-static int Debug = 0;
 static uint endFileName;
-void ldprintf(char *fmt,...);
 /** A page has been loaded successfully, save it to disk
  * @param page the page that has been fetched
  */
-void loaded (html *page) {
+void UserOutput::loaded (html *page) {
   nbfile++;
   if (nbfile < filesPerDir) {
     int tmp = nbfile;
@@ -100,13 +98,13 @@ void loaded (html *page) {
  * @param u the URL of the doc
  * @param reason reason of the fail
  */
-void failure (url *u, FetchError reason) {
+void UserOutput::failure (url *u, FetchError reason) {
   // do nothing
 }
 
 /** initialisation function
  */
-void initUserOutput () {
+void UserOutput::initUserOutput () {
   mkdir(saveDir, S_IRWXU);
   endFileName = strlen(saveDir);
   fileName = new char[endFileName+maxUrlSize+50];
@@ -122,21 +120,6 @@ void initUserOutput () {
  * to use mutex, because incoherence in the webserver is not as critical
  * as efficiency
  */
-void outputStats(int fds) {
+void UserOutput::outputStats(int fds) {
   ecrire(fds, "Nothing to declare");
-}
-
-void ldprintf(char *fmt,...){
-	va_list ap;
-
-	if(Debug){
-		va_start(ap, fmt);
-		vfprintf(stdout, fmt, ap);
-		va_end(ap);
-
-		fflush(stdout);
-		return;
-	}else{
-		return;
-	}
 }

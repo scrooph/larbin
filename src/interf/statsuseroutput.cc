@@ -33,7 +33,7 @@ static double totalbytes = 0;
 /** A page has been loaded successfully
  * @param page the page that has been fetched
  */
-void loaded (html *page) {
+void UserOutput::loaded (html *page) {
   uint32_t l = page->getLength();
   int t = l / taille;
   if (t >= nb) {
@@ -51,12 +51,12 @@ void loaded (html *page) {
  * @param u the URL of the doc
  * @param reason reason of the fail
  */
-void failure (url *u, FetchError reason) {
+void UserOutput::failure (url *u, FetchError reason) {
 }
 
 /** initialisation function
  */
-void initUserOutput () {
+void UserOutput::initUserOutput () {
   for (int i=0; i<nb; i++) {
     tabs[i] = 0;
     tabb[i] = 0;
@@ -78,7 +78,7 @@ static void dessine(int fds, double *tab, double *maxi) {
   }
 }
 
-void outputStats(int fds) {
+void UserOutput::outputStats(int fds) {
   ecrire(fds, "Stats for ");
   ecrireInt(fds, totalpages);
   ecrire(fds, " pages.\nMean size of a page : ");
