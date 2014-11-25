@@ -14,6 +14,7 @@
 #include "utils/text.h"
 #include "utils/debug.h"
 #include "interf/useroutput.h"
+#include "interf/output.h"
 #include "utils/mypthread.h"
 
 
@@ -21,7 +22,7 @@
  * @param u the URL of the doc
  * @param reason reason of the fail
  */
-void fetchFail (url *u, FetchError err, bool interesting=false) {
+void Output::fetchFail (url *u, FetchError err, bool interesting) {
 	UserOutput uop = UserOutput();
 #ifdef SPECIFICSEARCH
   if (interesting
@@ -36,7 +37,7 @@ void fetchFail (url *u, FetchError err, bool interesting=false) {
 /** It's over with this file
  * report the situation ! (and make some stats)
  */
-void endOfLoad (html *parser, FetchError err) {
+void Output::endOfLoad (html *parser, FetchError err) {
 	UserOutput uop = UserOutput();
   answers(err);
   switch (err) {
@@ -60,7 +61,8 @@ void endOfLoad (html *parser, FetchError err) {
 /** In this thread, end user manage the result of the crawl
  */
 static void *startOutput (void *none) {
-  initUserOutput();
+  UserOutput uop = UserOutput();
+  uop.initUserOutput();
   for (;;) {
     Connexion *conn = global::userConns->get();
     endOfLoad((html *)conn->parser, conn->err);
@@ -70,13 +72,13 @@ static void *startOutput (void *none) {
   return NULL;
 }
 
-void initOutput () {
+void Output::initOutput () {
   startThread(startOutput, NULL);
 }
 
 #else // THREAD_OUTPUT not defined
 
-void initOutput () {
+void Output::initOutput () {
 	UserOutput uop = UserOutput();
 	uop.initUserOutput();
 }

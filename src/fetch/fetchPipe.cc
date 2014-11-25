@@ -197,7 +197,8 @@ static void pipeRead (Connexion *conn) {
 #define manageHtml() global::userConns->put(conn)
 #else // THREAD_OUTPUT
 #define manageHtml() \
-    endOfLoad((html *)conn->parser, conn->err); \
+	Output op = Output();\
+	op.endOfLoad((html *)conn->parser, conn->err); \
     conn->recycle(); \
     global::freeConns->put(conn)
 #endif // THREAD_OUTPUT

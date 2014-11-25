@@ -188,7 +188,8 @@ global::global (int argc, char *argv[]) {
   // call init functions of all modules
   initSpecific();
   initInput();
-  initOutput();
+  Output op = Output();
+  op.initOutput();
   initSite();
   // let's ignore SIGPIPE
   static struct sigaction sn, so;

@@ -396,7 +396,8 @@ void NamedSite::transfer (url *u) {
 
 void NamedSite::forgetUrl (url *u, FetchError reason) {
   urls();
-  fetchFail(u, reason);
+  Output op = Output();
+  op.fetchFail(u, reason);
   answers(reason);
   nburls--;
   delete u;
@@ -513,7 +514,8 @@ int IPSite::fetch () {
         return 0;
       } else {
         // Unable to connect
-        fetchFail(u, noConnection);
+    	Output op = Output();
+    	op.fetchFail(u, noConnection);
         answers(noConnection);
         delete u;
         global::freeConns->put(conn);
