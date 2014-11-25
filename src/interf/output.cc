@@ -23,7 +23,6 @@
  * @param reason reason of the fail
  */
 void Output::fetchFail (url *u, FetchError err, bool interesting) {
-	UserOutput uop = UserOutput();
 #ifdef SPECIFICSEARCH
   if (interesting
       || (privilegedExts[0] != NULL && matchPrivExt(u->getFile()))) {
@@ -38,7 +37,6 @@ void Output::fetchFail (url *u, FetchError err, bool interesting) {
  * report the situation ! (and make some stats)
  */
 void Output::endOfLoad (html *parser, FetchError err) {
-	UserOutput uop = UserOutput();
   answers(err);
   switch (err) {
   case success:
@@ -61,7 +59,6 @@ void Output::endOfLoad (html *parser, FetchError err) {
 /** In this thread, end user manage the result of the crawl
  */
 static void *startOutput (void *none) {
-  UserOutput uop = UserOutput();
   uop.initUserOutput();
   for (;;) {
     Connexion *conn = global::userConns->get();
@@ -79,8 +76,10 @@ void Output::initOutput () {
 #else // THREAD_OUTPUT not defined
 
 void Output::initOutput () {
-	UserOutput uop = UserOutput();
 	uop.initUserOutput();
 }
 
+Output::Output () {
+	uop = UserOutput();
+}
 #endif // THREAD_OUTPUT

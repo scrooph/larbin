@@ -9,7 +9,11 @@
 #include "interf/useroutput.h"
 
 class Output{
+
 public:
+	Output();
+
+	UserOutput uop;
 	/** The fetch failed
 	 * @param u the URL of the doc
 	 * @param reason reason of the fail
