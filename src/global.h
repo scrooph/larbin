@@ -34,7 +34,8 @@
  * fetchOpen links them with servers
  * fetchPipe reads those which are linked
  */
-struct Connexion {
+class Connexion {
+public:
   char state;      // what about this socket : EMPTY, CONNECTING, WRITE, OPEN
   int pos;         // What part of the request has been sent
   FetchError err;  // How did the fetch terminates
@@ -52,7 +53,8 @@ struct Connexion {
   void recycle ();
 };
 
-struct global {
+class global {
+public:
   /** Constructor : see global.cc for details */
   global (int argc, char * argv[]);
   /** Destructor : never used */
