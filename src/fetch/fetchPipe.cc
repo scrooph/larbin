@@ -22,17 +22,13 @@
 #include "fetch/site.h"
 #include "fetch/file.h"
 #include "interf/output.h"
-
+#include "fetch/fetchPipe.h"
 #include "utils/debug.h"
-
-static void pipeRead (Connexion *conn);
-static void pipeWrite (Connexion *conn);
-static void endOfFile (Connexion *conn);
 
 
 /** Check timeout
  */
-void checkTimeout () {
+void fetchPipe::checkTimeout () {
   for (uint i=0; i<global::nb_conn; i++) {
 	Connexion *conn = global::connexions+i;
     if (conn->state != emptyC) {
@@ -55,7 +51,7 @@ void checkTimeout () {
  * fill fd_set for next select
  * give back max fds
  */
-void checkAll () {
+void fetchPipe::checkAll () {
   // read and write what can be
   for (uint i=0; i<global::nb_conn; i++) {
     Connexion *conn = global::connexions+i;
@@ -94,7 +90,7 @@ void checkAll () {
 /** The socket is finally open !
  * Make sure it's all right, and write the request
  */
-static void pipeWrite (Connexion *conn) {
+void fetchPipe::pipeWrite (Connexion *conn) {
   int res = 0;
   int wrtn, len;
   socklen_t size = sizeof(int);
@@ -145,7 +141,7 @@ static void pipeWrite (Connexion *conn) {
 /** Is there something to read on this socket
  * (which is open)
  */
-static void pipeRead (Connexion *conn) {
+void fetchPipe::pipeRead (Connexion *conn) {
   int p = conn->parser->pos;
   int size = read (conn->socket, conn->buffer+p, maxPageSize-p-1);
   switch (size) {
@@ -203,7 +199,7 @@ static void pipeRead (Connexion *conn) {
     global::freeConns->put(conn)
 #endif // THREAD_OUTPUT
 
-static void endOfFile (Connexion *conn) {
+void fetchPipe::endOfFile (Connexion *conn) {
   crash("End of file");
   conn->state = emptyC;
   close(conn->socket);

@@ -101,7 +101,7 @@ int main (int argc, char *argv[]) {
     stateMain(5);
     fetchOpen();
     stateMain(6);
-    checkAll();
+    fetchPipe::checkAll();
     // select
     stateMain(count++);
     poll(global::pollfds, global::posPoll, 10);
@@ -123,7 +123,7 @@ static void cron () {
 #endif // EXIT_AT_END
 
   // look for timeouts
-  checkTimeout();
+  fetchPipe::checkTimeout();
   // see if we should read again urls in fifowait
   if ((global::now % 300) == 0) {
     global::readPriorityWait = global::URLsPriorityWait->getLength();

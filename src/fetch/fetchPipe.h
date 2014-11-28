@@ -5,8 +5,14 @@
 #ifndef FETCHPIPE_H
 #define FETCHPIPE_H
 
-void checkTimeout ();
+class fetchPipe{
+public:
+static void checkTimeout ();
+static void checkAll ();
+static void pipeRead (Connexion *conn);
+static void pipeWrite (Connexion *conn);
+static void endOfFile (Connexion *conn);
 
-void checkAll ();
+};
 
 #endif // FETCH_H
