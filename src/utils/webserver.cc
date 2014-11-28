@@ -35,9 +35,6 @@
 
 using namespace std;
 
-static char *readRequest (int fds);
-static void manageAns (int fds, char *req);
-
 static time_t startTime;
 static char *startDate;
 
@@ -72,7 +69,7 @@ void Webserver::startWebserver (void *none) {
 	if (fdc == -1) {
 	  cerr << "Trouble with web server...\n";
 	} else {
-      manageAns(fdc, readRequest(fdc));
+      Webserver::manageAns(fdc, Webserver::readRequest(fdc));
       close(fdc);
 	}
   }
@@ -98,7 +95,7 @@ void Webserver::writeFooter(int fds) {
 static int totalduree;
 
 /** write date and time informations */
-static void writeTime (int fds) {
+void Webserver::writeTime (int fds) {
   ecrire(fds, "Start date :   ");
   ecrire(fds, startDate);
   ecrire(fds, "Current date : ");
@@ -373,7 +370,7 @@ static void writeIpUrls (int fds) {
 
 /* main function, manages the dispatch
  */
-static void manageAns (int fds, char *req) {
+void Webserver::manageAns (int fds, char *req) {
   if (req != NULL) {
 	Webserver::writeHeader(fds);
     if (!strncmp(req, "/output.html", 12)) {
@@ -383,21 +380,21 @@ static void manageAns (int fds, char *req) {
     } else if (!strcmp(req, "/ip.html")) {
       writeIpUrls(fds);
     } else if (!strcmp(req, "/all.html")) {
-      writeTime(fds);
+      Webserver::writeTime(fds);
       writeStats(fds);
       writeGraph(fds);
       writeDebug(fds);
     } else if (!strcmp(req, "/debug.html")) {
-      writeTime(fds);
+      Webserver::writeTime(fds);
       writeDebug(fds);
     } else if (!strcmp(req, "/graph.html")) {
-      writeTime(fds);
+      Webserver::writeTime(fds);
       writeGraph(fds);
     } else if (!strcmp(req, "/smallstats.html")) {
-      writeTime(fds);
+      Webserver::writeTime(fds);
       writeStats(fds);
     } else { // stat
-      writeTime(fds);
+      Webserver::writeTime(fds);
       writeStats(fds);
       writeGraph(fds);
     }
@@ -449,7 +446,7 @@ static int parseRequest (int size) {
   return 1;
 }
 
-static char *readRequest (int fds) {
+char* Webserver::readRequest (int fds) {
   pos = 0;
   endFile = false;
   while (true) {

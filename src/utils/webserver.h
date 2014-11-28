@@ -12,6 +12,9 @@ public:
 	static void  startWebserver (void *none);
 	static void writeHeader(int fds);
 	static void writeFooter(int fds);
+	static void writeTime (int fds);
+	static char *readRequest (int fds);
+	static void manageAns (int fds, char *req);
 };
 #endif // NOWEBSERVER
 
