@@ -31,6 +31,7 @@
 #include "utils/debug.h"
 #include "utils/histogram.h"
 #include "interf/useroutput.h"
+#include "utils/webserver.h"
 
 using namespace std;
 
@@ -43,7 +44,7 @@ static char *startDate;
 // a buffer used for various things (read request, write urls...)
 static char buf[BUF_SIZE];
 
-void *startWebserver (void *none) {
+void Webserver::startWebserver (void *none) {
   // bind the socket
   int fds;
   int nAllowReuse = 1;
@@ -75,20 +76,20 @@ void *startWebserver (void *none) {
       close(fdc);
 	}
   }
-  return NULL;
+  return;
 }
 
 
 ////////////////////////////////////////////////////////////
 // write answer
 
-static void writeHeader(int fds) {
+void Webserver::writeHeader(int fds) {
   ecrire(fds, "HTTP/1.0 200 OK\r\nServer: Larbin\r\nContent-type: text/html\r\n\r\n<html>\n<head>\n<title>");
   ecrire(fds, global::userAgent);
   ecrire(fds, " real time statistic</title>\n</head>\n<body bgcolor=\"#FFFFFF\">\n<center><h1>Larbin is up and running !</h1></center>\n<pre>\n");
 }
 
-static void writeFooter(int fds) {
+void Webserver::writeFooter(int fds) {
   // end of page and kill the connexion
   ecrire(fds, "\n</pre>\n<a href=\"stats.html\">stats</a>\n(<a href=\"smallstats.html\">small stats</a>+<a href=\"graph.html\">graphics</a>)\n<a href=\"debug.html\">debug</a>\n<a href=\"all.html\">all</a>\n<a href=\"ip.html\">ip</a>\n<a href=\"dns.html\">dns</a>\n<a href=\"output.html\">output</a>\n<hr>\n<A HREF=\"http://larbin.sourceforge.net/\"><img SRC=\"http://perso.wanadoo.fr/sebastien.ailleret/seb.gif\"></A>\n<A HREF=\"mailto:sebastien@ailleret.com\">sebastien@ailleret.com</A>\n</body>\n</html>");
   shutdown(fds, 2);
@@ -374,7 +375,7 @@ static void writeIpUrls (int fds) {
  */
 static void manageAns (int fds, char *req) {
   if (req != NULL) {
-    writeHeader(fds);
+	Webserver::writeHeader(fds);
     if (!strncmp(req, "/output.html", 12)) {
     	UserOutput::outputStats(fds);
     } else if (!strcmp(req, "/dns.html")) {
@@ -400,7 +401,7 @@ static void manageAns (int fds, char *req) {
       writeStats(fds);
       writeGraph(fds);
     }
-    writeFooter(fds);
+    Webserver::writeFooter(fds);
   }
 }
 

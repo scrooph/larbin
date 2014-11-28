@@ -69,7 +69,7 @@ int main (int argc, char *argv[]) {
 #ifndef NOWEBSERVER
   // launch the webserver if needeed
   if (global::httpPort != 0)
-    startThread(startWebserver, NULL);
+    startThread((void*(*)(void*))Webserver::startWebserver, NULL);
 #endif // NOWEBSERVER
 
   // Start the search

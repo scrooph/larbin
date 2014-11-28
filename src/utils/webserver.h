@@ -6,7 +6,13 @@
 #define WEBSERVER_H
 
 #ifndef NOWEBSERVER
-void *startWebserver (void *none);
+
+class Webserver{
+public:
+	static void  startWebserver (void *none);
+	static void writeHeader(int fds);
+	static void writeFooter(int fds);
+};
 #endif // NOWEBSERVER
 
 #endif // WEBSERVER_H
