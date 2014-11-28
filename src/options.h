@@ -18,7 +18,15 @@
 #define SIMPLE_SAVE      // save in files named save/dxxxxxx/fyyyyyy
 //////////////////////////////////////////////////////////
 #define PHP_CGI	"/usr/local/php/bin/php"
-#define SAVE_DB
+#define SAVE_DB 1
+#ifdef SAVE_DB
+#define DB_TYPE "mysql"
+#define DB_USER "root"
+#define DB_HOST "127.0.0.1"
+#define DB_PASSWORD "root"
+#define DB_PORT "3306"
+#define DB_BASE "test"
+#endif
 //#define MIRROR_SAVE      // save in files (respect sites hierarchy)
 //#define STATS_OUTPUT     // do some stats on pages
 

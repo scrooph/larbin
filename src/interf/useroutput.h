@@ -7,6 +7,8 @@
 
 #include "utils/url.h"
 #include "fetch/file.h"
+#include <mysql/mysql.h>
+#include "mysql_driver.h"
 #include <stdarg.h>
 
 /** A page has been loaded successfully

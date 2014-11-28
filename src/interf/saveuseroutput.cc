@@ -14,7 +14,7 @@
 #include "fetch/file.h"
 #include "utils/text.h"
 #include "utils/debug.h"
-#include "interf/output.h"
+#include "interf/useroutput.h"
 
 using namespace std;
 
@@ -79,7 +79,7 @@ void UserOutput::loaded (html *page) {
   ecrireBuff(indexFds, buf, s);
   ecrireBuff(fd, page->getPage(), page->getLength());
   close(fd);
-#ifdef SAVE_DB
+#ifdef SAVE_DB_SCRIPT
 	//get file
 	ldprintf("%s\n",fileName);
 	//get url
@@ -90,6 +90,27 @@ void UserOutput::loaded (html *page) {
 	sprintf(cmdContent,"%s queue.php %s %s",PHP_CGI,fileName,urlContent);
 	system(cmdContent);
 	ldprintf("%s\n",cmdContent);
+#endif
+
+#ifdef SAVE_DB
+	//mysql and insert content into it
+	cout<<DB_HOST<<endl;
+	sql::mysql::MySQL_Driver *driver;
+	sql::Connection *con;
+	sql::Statement *stmt;
+
+	driver = sql::mysql::get_mysql_driver_instance();
+	con = driver->connect("tcp://127.0.0.1:3306", DB_USER, DB_PASSWORD);
+
+	stmt = con->createStatement();
+	stmt->execute("USE " + DB_BASE);
+	stmt->execute("DROP TABLE IF EXISTS t1");
+	stmt->execute("CREATE TABLE test(id INT, label CHAR(1))");
+	stmt->execute("INSERT INTO test(id, label) VALUES (1, 'a')");
+
+	delete stmt;
+	delete con;
+
 #endif
 
 }
