@@ -24,15 +24,28 @@
  *  along with this program; if not, write to the Free Software Foundation,
  *  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
  */
+#ifdef HAVE_POLL
 
 #include <limits.h>
 #include <string.h>
 
 #include "internal.h"
 
-#ifdef HAVE_POLL
+class adnsPoll{
 
-int adns_beforepoll(adns_state ads, struct pollfd *fds, int *nfds_io, int *timeout_io,
+public:
+	static int adns_beforepoll(adns_state ads, struct pollfd *fds, int *nfds_io, int *timeout_io,
+			    const struct timeval *now);
+	static void adns_afterpoll(adns_state ads, const struct pollfd *fds, int nfds,
+			    const struct timeval *now);
+	static int adns_wait_poll(adns_state ads,
+			   adns_query *query_io,
+			   adns_answer **answer_r,
+			   void **context_r);
+
+};
+
+int adnsPoll::adns_beforepoll(adns_state ads, struct pollfd *fds, int *nfds_io, int *timeout_io,
 		    const struct timeval *now) {
   struct timeval tv_nowbuf, tv_tobuf, *tv_to;
   int space, found, timeout_ms, r;
@@ -82,7 +95,7 @@ xit:
   return r;
 }
 
-void adns_afterpoll(adns_state ads, const struct pollfd *fds, int nfds,
+void adnsPoll::adns_afterpoll(adns_state ads, const struct pollfd *fds, int nfds,
 		    const struct timeval *now) {
   struct timeval tv_buf;
 
@@ -95,7 +108,7 @@ void adns_afterpoll(adns_state ads, const struct pollfd *fds, int nfds,
   adns__consistency(ads,0,cc_entex);
 }
 
-int adns_wait_poll(adns_state ads,
+int adnsPoll::adns_wait_poll(adns_state ads,
 		   adns_query *query_io,
 		   adns_answer **answer_r,
 		   void **context_r) {
