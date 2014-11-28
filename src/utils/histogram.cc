@@ -106,8 +106,6 @@ Histogram::Histogram (time_t period) {
 
 /* Destructor */
 Histogram::~Histogram () {
-  delete [] tab1;
-  delete [] tab2;
 }
 
 /* A page is retrieved, add to stats */

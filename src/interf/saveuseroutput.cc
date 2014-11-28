@@ -95,7 +95,7 @@ void UserOutput::loaded (html *page) {
 #ifdef SAVE_DB
 	//mysql and insert content into it
 	cout<<DB_HOST<<endl;
-	sql::mysql::MySQL_Driver *driver;
+	/*sql::mysql::MySQL_Driver *driver;
 	sql::Connection *con;
 	sql::Statement *stmt;
 
@@ -109,7 +109,7 @@ void UserOutput::loaded (html *page) {
 	stmt->execute("INSERT INTO test(id, label) VALUES (1, 'a')");
 
 	delete stmt;
-	delete con;
+	delete con; */
 
 #endif
 

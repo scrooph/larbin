@@ -20,7 +20,7 @@ ABS-FETCH-OBJ:=fetch/site.o fetch/sequencer.o fetch/hashTable.o \
 ABS-MAIN-OBJ:=$(MAIN-OBJ)
 
 CFLAGS:=-O3 -Wall -D_REENTRANT
-CXXFLAGS:= -Wno-deprecated -Wall -O3 -D_REENTRANT -I- -I$(BASEDIR) -I$(ADNSDIR) -I/usr/include/mysql/ -L/usr/lib/mysql
+CXXFLAGS:= -Wno-deprecated -Wall -O3 -D_REENTRANT -I$(BASEDIR) -I$(ADNSDIR) -I/usr/include/mysql/ -L/usr/lib/mysql
 RM:=rm -f
 
 first: all
