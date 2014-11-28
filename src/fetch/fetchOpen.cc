@@ -14,12 +14,13 @@
 #include "utils/Fifo.h"
 #include "utils/debug.h"
 #include "fetch/site.h"
+#include "fetch/fetchOpen.h"
 
 /* Opens sockets
  * Never block (only opens sockets on already known sites)
  * work inside the main thread
  */
-void fetchOpen () {
+void ftOpen::fetchOpen () {
   static time_t next_call = 0;
   if (global::now < next_call) { // too early to come back
     return;
@@ -39,7 +40,7 @@ void fetchOpen () {
 /* Opens sockets
  * this function perform dns calls, using adns
  */
-void fetchDns () {
+void ftOpen::fetchDns () {
   // Submit queries
   while (global::nbDnsCalls<global::dnsConn
          && global::freeConns->isNonEmpty()

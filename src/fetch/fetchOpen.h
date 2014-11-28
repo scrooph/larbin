@@ -5,15 +5,19 @@
 #ifndef FETCHOPEN_H
 #define FETCHOPEN_H
 
+class ftOpen{
+public:
 /* Opens sockets
  * this function perform dns calls, using adns
  */
-void fetchDns ();
+static void fetchDns ();
 
 /* Opens sockets
  * Never block (only opens sockets on allready known sites)
  * work inside the main thread
  */
-void fetchOpen ();
+static void fetchOpen ();
+
+};
 
 #endif // FETCHOPEN_H

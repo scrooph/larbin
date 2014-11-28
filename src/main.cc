@@ -97,9 +97,9 @@ int main (int argc, char *argv[]) {
     stateMain(3);
     sequencer();
     stateMain(4);
-    fetchDns();
+    ftOpen::fetchDns();
     stateMain(5);
-    fetchOpen();
+    ftOpen::fetchOpen();
     stateMain(6);
     fetchPipe::checkAll();
     // select
